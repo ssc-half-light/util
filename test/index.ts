@@ -13,5 +13,5 @@ const sig = 'X8iGF4Lz4erw4UEjGEzjFBPapAj23hH2xZs46RCSk7m6VdI_OJcFHqnboMC9D9Gab3y
 
 test('verify a signature', async t => {
     const valid = await verify(did, sig, 'my message')
-    t.ok(valid, 'should verify a valid signature + DID')
+    t.equal(valid, true, 'should verify a valid signature + DID')
 })
