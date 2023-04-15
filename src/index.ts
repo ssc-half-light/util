@@ -7,7 +7,7 @@ const KEY_TYPE = {
     RSA: 'rsa',
     Edwards: 'ed25519',
     BLS: 'bls12-381'
-}
+} as const
 const EDWARDS_DID_PREFIX = new Uint8Array([0xed, 0x01])
 const BLS_DID_PREFIX = new Uint8Array([0xea, 0x01])
 const RSA_DID_PREFIX = new Uint8Array([0x00, 0xf5, 0x02])
@@ -34,7 +34,10 @@ export const verify = async (did:string, sig:string, msg:string) => {
     return res
 }
 
-export function didToPublicKey (did:string): ({ publicKey:Uint8Array, type:string }) {
+export function didToPublicKey (did:string): ({
+    publicKey:Uint8Array,
+    type:'rsa' | 'ed25519' | 'bls12-381'
+}) {
     if (!did.startsWith(BASE58_DID_PREFIX)) {
         throw new Error(
             'Please use a base58-encoded DID formatted `did:key:z...`')
