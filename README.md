@@ -54,6 +54,7 @@ const sig = toString(await sign(keystore, 'my message'))
 ```
 
 ### Verify a signature
+Works in node or browsers.
 
 ```ts
 import { verify } from '@ssc-hermes/util'
