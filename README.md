@@ -36,7 +36,6 @@ Convert a DID string to a `Uint8Array` and `type` string.
 (did:string):({ publicKey:Uint8Array, type:string })
 ```
 
-
 ## example
 
 ### Sign a message
@@ -54,7 +53,7 @@ const { keystore } = program.components.crypto
 const sig = toString(await sign(keystore, 'my message'))
 ```
 
-### verify a signature
+### Verify a signature
 
 ```ts
 import { verify } from '@ssc-hermes/util'
