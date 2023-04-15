@@ -1,19 +1,65 @@
-# template ts
+# util
 
-A template for typescript *dependency* modules.
+Utility functions
 
-## use
-1. Use the template button in github. Or clone this then `rm -rf .git && git init`. Then `npm i && npm init`.
+Depends on `uint8arrays` and `@oddjs/odd`.
 
-2. Edit the source code in `src/index.ts`.
+## install
 
-## featuring
+```bash
+npm i @ssc-hermes/util
+```
 
-* compile the source to both ESM and CJS format, and put compiled files in `dist`.
-* ignore `dist` and `*.js` in git, but don't ignore them in npm. That way we don't commit any compiled code to git, but it is available to consumers.
-* use npm's `prepublishOnly` hook to compile the code before publishing to npm.
-* use `exports` field in `package.json` to make sure the right format is used by consumers.
-* `preversion` npm hook -- lint via `standardx`.
-* `postversion` npm hook -- `git push && git push --tags && npm publish`
-* eslint via [standardx](https://www.npmjs.com/package/standardx) -- `npm run lint`
-* tests run in a browser environment via `tape-run`. Run them with `npm test`. Includes `tap` testing tools -- [tapzero](https://github.com/socketsupply/tapzero) and [tap-arc](https://www.npmjs.com/package/tap-arc)
+## API
+
+### verify
+```ts
+async (did:string, sig:string, msg:string):Promise<boolean>
+```
+
+### sign
+```ts
+(keystore:KeyStore, msg:string):Promise<Uint8Array>
+```
+
+### toString
+Return `'base64url'` string. Good for getting a string version of a signature.
+
+```ts
+(arr:Uint8Array):string
+```
+
+### didToPublicKey
+Convert a DID string to a `Uint8Array` and `type` string.
+
+```ts
+(did:string):({ publicKey:Uint8Array, type:string })
+```
+
+
+## example
+
+### Sign a message
+This depends on a `keystore` instance.
+
+```ts
+import { sign, toString } from '@ssc-hermes/util'
+import * as odd from '@oddjs/odd'
+
+const program = await odd.program({
+    namespace: { creator: 'test', name: 'testing' },
+    debug: true
+})
+const { keystore } = program.components.crypto
+const sig = toString(await sign(keystore, 'my message'))
+```
+
+### verify a signature
+
+```ts
+import { verify } from '@ssc-hermes/util'
+
+const DID = 'did:key:z13V3Sog2YaUKhdGCmgx9UZuW1o1ShFJYc6DvGYe7NTt689NoL2htQdMxpcGJ3C7aZxdwvAzVjiib8MGB5R4vVFYtQJe1k5YfgxHnhAy2AxtG9CCfDMioGExvWNQREeBt6kwZweRCm4D2c6UmAvosCpf48EcdVATJKdQiwW1Swp9Vo5rkbPCTYWHvSpwgw8N9WntcfrPNRF7xDvGFmQ1ZiZkvZw1E4sVUMvhoaLbnHoRSB8NLrdW1mXjkVCyeA3a72x76sXhXtvbQ63noGth8Rke8tGCfXs9Skha81F9UFZz3gmJZTrgFTfCJrcMF2b6AsHZtWgLGnsXcB3hj7pxRy8APSCeq4AYfzCexkrkVdctmfQkrMSDd5WmGEeF8KKzkoNaHZhcgHd8VcYFXnuoKe8'
+
+const isValid = verify(DID, sig, 'my message')
+```
