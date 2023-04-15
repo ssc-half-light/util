@@ -33,7 +33,7 @@ Return `'base64url'` string. Good for getting a string version of a signature.
 Convert a DID string to a `Uint8Array` and `type` string.
 
 ```ts
-(did:string):({ publicKey:Uint8Array, type:string })
+(did:string):({ publicKey:Uint8Array, type: 'rsa' | 'ed25519' | 'bls12-381' })
 ```
 
 ## example
