@@ -17,7 +17,7 @@ test('verify a bad signature', async t => {
 
     try {
         await verify(did, 'bad signature', 'my message')
-        t.fail()
+        t.fail('should throw an error with this signature')
     } catch (err) {
         t.ok(err.message.includes('Non-base64url character'),
             'should throw an error with badly formatted signature')
