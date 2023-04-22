@@ -38,7 +38,7 @@ test('verify a bad signature', async t => {
 })
 
 test('writeKeyToDid', async t => {
-    const crypto = program.components.crypto
+    const crypto = program.components.crypto.keystore
     const did = await writeKeyToDid(crypto)
     t.equal(typeof did, 'string', 'should create string')
     t.ok(did.includes('did:key:'), 'should return the right format string')

@@ -55,9 +55,17 @@ export function didToPublicKey (did:string): ({
     }
 }
 
+// interface Args {
+//     publicWriteKey: () => Promise<Uint8Array>,
+//     getAlgorithm: () => Promise<string>
+// }
+
 export async function writeKeyToDid (crypto: Crypto.Implementation)
+// export async function writeKeyToDid (fns: Args)
 :Promise<string> {
     const [pubKey, ksAlg] = await Promise.all([
+        // await fns.publicWriteKey(),
+        // await fns.getAlgorithm()
         await crypto.keystore.publicWriteKey(),
         await crypto.keystore.getAlgorithm()
     ])
