@@ -67,3 +67,15 @@ const sig = 'X8iGF4Lz4erw4UEjGEzjFBPapAj23hH2xZs46RCSk7m6VdI_OJcFHqnboMC9D9Gab3y
 
 const isValid = await verify(DID, sig, 'my message')
 ```
+
+### Convert write key to DID
+Get the DID version of the key used to write messages.
+
+```js
+test('writeKeyToDid', async t => {
+    const crypto = program.components.crypto
+    const did = await writeKeyToDid(crypto)
+    t.equal(typeof did, 'string', 'should create string')
+    t.ok(did.includes('did:key:'), 'should return the right format string')
+})
+```
