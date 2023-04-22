@@ -1,5 +1,7 @@
 import * as uint8arrays from 'uint8arrays'
 import * as BrowserCrypto from '@oddjs/odd/components/crypto/implementation/browser'
+import { publicKeyToDid } from '@oddjs/odd/did/transformers'
+import type { Crypto } from '@oddjs/odd'
 import { Implementation } from '@oddjs/odd/components/crypto/implementation'
 type KeyStore = Implementation['keystore']
 
@@ -51,6 +53,15 @@ export function didToPublicKey (did:string): ({
         publicKey: keyBuffer,
         type
     }
+}
+
+export async function writeKeyToDid (crypto: Crypto.Implementation)
+:Promise<string> {
+    const [pubKey, ksAlg] = await Promise.all([
+        await crypto.keystore.publicWriteKey(),
+        await crypto.keystore.getAlgorithm()
+    ])
+    return publicKeyToDid(crypto, pubKey, ksAlg)
 }
 
 /**
