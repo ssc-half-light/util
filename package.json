@@ -1,7 +1,7 @@
 {
   "name": "@ssc-hermes/util",
   "type": "module",
-  "description": "A template for typescript *dependency* modules.",
+  "description": "Utility functions related to the webcrypto API",
   "version": "0.3.0",
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
