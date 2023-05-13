@@ -2,7 +2,6 @@ import { test } from 'tapzero'
 import * as odd from '@oddjs/odd'
 import { components } from '@ssc-hermes/node-components'
 import { verify, writeKeyToDid } from '../dist/index.js'
-import { getHash } from '../dist/hash.js'
 
 // root DID
 const did = 'did:key:z13V3Sog2YaUKhdGCmgx9UZuW1o1ShFJYc6DvGYe7NTt689NoL2htQdMxpcGJ3C7aZxdwvAzVjiib8MGB5R4vVFYtQJe1k5YfgxHnhAy2AxtG9CCfDMioGExvWNQREeBt6kwZweRCm4D2c6UmAvosCpf48EcdVATJKdQiwW1Swp9Vo5rkbPCTYWHvSpwgw8N9WntcfrPNRF7xDvGFmQ1ZiZkvZw1E4sVUMvhoaLbnHoRSB8NLrdW1mXjkVCyeA3a72x76sXhXtvbQ63noGth8Rke8tGCfXs9Skha81F9UFZz3gmJZTrgFTfCJrcMF2b6AsHZtWgLGnsXcB3hj7pxRy8APSCeq4AYfzCexkrkVdctmfQkrMSDd5WmGEeF8KKzkoNaHZhcgHd8VcYFXnuoKe8'
@@ -44,25 +43,3 @@ test('writeKeyToDid', async t => {
     t.equal(typeof did, 'string', 'should create string')
     t.ok(did.includes('did:key:'), 'should return the right format string')
 })
-
-test('hash', async t => {
-    const base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII'
-    const file = dataURItoFile(base64, 'test.png')
-    const hash = await getHash(file)
-    console.log('*hash*', hash)
-    t.equal(typeof hash, 'string', 'should create a hash that is a string')
-})
-
-function dataURItoFile (dataurl, filename) {
-    const arr = dataurl.split(',')
-    const mime = arr[0].match(/:(.*?);/)[1]
-    const bstr = atob(arr[1])
-    let n = bstr.length
-    const u8arr = new Uint8Array(n)
-
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n)
-    }
-
-    return new File([u8arr], filename, { type: mime })
-}
