@@ -22,7 +22,7 @@ export function getHash (file:File):Promise<string> {
 
         reader.onloadend = () => {
             const res = reader.result as ArrayBuffer
-            if (!res) return
+            if (!res) return reject(new Error('No content'))
             const hash = blake(new Uint8Array(new Uint8Array(res)))
             resolve(hash)
         }
