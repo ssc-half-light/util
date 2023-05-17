@@ -12,7 +12,7 @@ export function blake (file:string|Uint8Array) {
  * @param file {File} A file object as from the browser
  * @returns {Promise<string>} The blake hash
  */
-export function getHash (file:File):Promise<string> {
+export function getHashFile (file:File):Promise<string> {
     const reader = new FileReader()
 
     return new Promise((resolve, reject) => {
@@ -23,15 +23,19 @@ export function getHash (file:File):Promise<string> {
         reader.onloadend = () => {
             const res = reader.result as ArrayBuffer
             if (!res) return reject(new Error('No content'))
-            const hash = blake(new Uint8Array(res))
-            resolve(hash)
+            resolve(getHash(new Uint8Array(res)))
         }
 
         reader.readAsArrayBuffer(file)
     })
 }
 
+export function getHash (arr:Uint8Array):string {
+    return blake(arr)
+}
+
 export default {
     blake,
+    getHashFile,
     getHash
 }

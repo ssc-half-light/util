@@ -43,3 +43,7 @@ test('writeKeyToDid', async t => {
     t.equal(typeof did, 'string', 'should create string')
     t.ok(did.includes('did:key:'), 'should return the right format string')
 })
+
+test('get a hash', t => {
+
+})
