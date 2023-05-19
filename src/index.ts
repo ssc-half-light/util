@@ -107,3 +107,20 @@ const arrBufs = {
 function hasPrefix (prefixedKey, prefix) {
     return arrBufs.equal(prefix, prefixedKey.slice(0, prefix.byteLength))
 }
+
+export function blobFromFile (file:File):Promise<Uint8Array> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+
+        reader.onloadend = () => {
+            if (!reader.result) return reject(new Error('no content'))
+            resolve(reader.result as Uint8Array)
+        }
+
+        reader.onerror = () => {
+            return reject(reader.error)
+        }
+
+        reader.readAsArrayBuffer(file)
+    })
+}

@@ -1,5 +1,6 @@
 import { test } from 'tapzero'
 import { getHash, getHashFile } from '../dist/hash.js'
+import { blobFromFile } from '../dist/index.js'
 
 const base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII'
 
@@ -28,6 +29,14 @@ test('hash from uint8array', t => {
 
         reader.readAsArrayBuffer(file)
     })
+})
+
+test('convert file to blob', async t => {
+    const file = dataURItoFile(base64, 'test.png')
+    const blob = await blobFromFile(file)
+
+    t.ok(blob, 'should create a blob')
+    t.ok(blob instanceof ArrayBuffer)
 })
 
 function dataURItoFile (dataurl, filename) {
