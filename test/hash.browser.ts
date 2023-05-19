@@ -36,7 +36,7 @@ test('convert file to blob', async t => {
     const blob = await blobFromFile(file)
 
     t.ok(blob, 'should create a blob')
-    t.ok(blob instanceof ArrayBuffer)
+    t.ok(blob instanceof ArrayBuffer, 'should be an ArrayBuffer')
 })
 
 function dataURItoFile (dataurl, filename) {
