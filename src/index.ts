@@ -58,8 +58,8 @@ export function didToPublicKey (did:string): ({
 export async function writeKeyToDid (crypto: Crypto.Implementation)
 :Promise<string> {
     const [pubKey, ksAlg] = await Promise.all([
-        await crypto.keystore.publicWriteKey(),
-        await crypto.keystore.getAlgorithm()
+        crypto.keystore.publicWriteKey(),
+        crypto.keystore.getAlgorithm()
     ])
     return publicKeyToDid(crypto, pubKey, ksAlg)
 }
