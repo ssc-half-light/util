@@ -1,6 +1,6 @@
 import * as uint8arrays from 'uint8arrays'
 import * as BrowserCrypto from '@oddjs/odd/components/crypto/implementation/browser'
-import { publicKeyToDid } from '@oddjs/odd/did/transformers'
+// import { publicKeyToDid } from '@oddjs/odd/did/transformers'
 import type { Crypto } from '@oddjs/odd'
 import { Implementation } from '@oddjs/odd/components/crypto/implementation'
 type KeyStore = Implementation['keystore']
@@ -10,6 +10,7 @@ const KEY_TYPE = {
     Edwards: 'ed25519',
     BLS: 'bls12-381'
 } as const
+
 const EDWARDS_DID_PREFIX = new Uint8Array([0xed, 0x01])
 const BLS_DID_PREFIX = new Uint8Array([0xea, 0x01])
 const RSA_DID_PREFIX = new Uint8Array([0x00, 0xf5, 0x02])
@@ -53,6 +54,24 @@ export function didToPublicKey (did:string): ({
         publicKey: keyBuffer,
         type
     }
+}
+
+export function publicKeyToDid (
+    crypto: Crypto.Implementation,
+    publicKey: Uint8Array,
+    keyType: string
+): string {
+    // Prefix public-write key
+    const prefix = crypto.did.keyTypes[keyType]?.magicBytes
+    if (prefix === null) {
+        throw new Error(`Key type '${keyType}' not supported, ` +
+            `available types: ${Object.keys(crypto.did.keyTypes).join(', ')}`)
+    }
+
+    const prefixedBuf = uint8arrays.concat([prefix, publicKey])
+
+    // Encode prefixed
+    return BASE58_DID_PREFIX + uint8arrays.toString(prefixedBuf, 'base58btc')
 }
 
 export async function writeKeyToDid (crypto: Crypto.Implementation)
