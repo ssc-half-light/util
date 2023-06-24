@@ -1,6 +1,5 @@
 import * as uint8arrays from 'uint8arrays'
 import * as BrowserCrypto from '@oddjs/odd/components/crypto/implementation/browser'
-// import { publicKeyToDid } from '@oddjs/odd/did/transformers'
 import type { Crypto } from '@oddjs/odd'
 import { Implementation } from '@oddjs/odd/components/crypto/implementation'
 type KeyStore = Implementation['keystore']
