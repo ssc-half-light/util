@@ -1,5 +1,6 @@
-import * as uint8arrays from 'uint8arrays'
-import * as BrowserCrypto from '@oddjs/odd/components/crypto/implementation/browser'
+// import * as uint8arrays from 'uint8arrays'
+import { concat, fromString, toString as arrToString } from 'uint8arrays'
+import { did as didLib } from '@oddjs/odd/components/crypto/implementation/browser'
 import type { Crypto } from '@oddjs/odd'
 import { Implementation } from '@oddjs/odd/components/crypto/implementation'
 type KeyStore = Implementation['keystore']
@@ -15,22 +16,22 @@ const BLS_DID_PREFIX = new Uint8Array([0xea, 0x01])
 const RSA_DID_PREFIX = new Uint8Array([0x00, 0xf5, 0x02])
 const BASE58_DID_PREFIX = 'did:key:z'
 
-export function sign (keystore:KeyStore, msg:string) {
-    return keystore.sign(uint8arrays.fromString(msg))
+export function sign (keystore:KeyStore, msg:string):Promise<Uint8Array> {
+    return keystore.sign(fromString(msg))
 }
 
 export function toString (arr:Uint8Array) {
-    return uint8arrays.toString(arr, 'base64url')
+    return arrToString(arr, 'base64url')
 }
 
 export const verify = async (did:string, sig:string, msg:string) => {
     const { publicKey, type } = didToPublicKey(did)
-    const keyType = BrowserCrypto.did.keyTypes[type]
+    const keyType = didLib.keyTypes[type]
 
     const res = await keyType.verify({
-        message: uint8arrays.fromString(msg),
+        message: fromString(msg),
         publicKey,
-        signature: uint8arrays.fromString(sig, 'base64url')
+        signature: fromString(sig, 'base64url')
     })
 
     return res
@@ -46,7 +47,7 @@ export function didToPublicKey (did:string): ({
     }
 
     const didWithoutPrefix = ('' + did.substr(BASE58_DID_PREFIX.length))
-    const magicalBuf = uint8arrays.fromString(didWithoutPrefix, 'base58btc')
+    const magicalBuf = fromString(didWithoutPrefix, 'base58btc')
     const { keyBuffer, type } = parseMagicBytes(magicalBuf)
 
     return {
@@ -56,7 +57,7 @@ export function didToPublicKey (did:string): ({
 }
 
 export function publicKeyToDid (
-    crypto: Crypto.Implementation,
+    crypto: Implementation,
     publicKey: Uint8Array,
     keyType: string
 ): string {
@@ -67,10 +68,10 @@ export function publicKeyToDid (
             `available types: ${Object.keys(crypto.did.keyTypes).join(', ')}`)
     }
 
-    const prefixedBuf = uint8arrays.concat([prefix, publicKey])
+    const prefixedBuf = concat([prefix, publicKey])
 
     // Encode prefixed
-    return BASE58_DID_PREFIX + uint8arrays.toString(prefixedBuf, 'base58btc')
+    return BASE58_DID_PREFIX + arrToString(prefixedBuf, 'base58btc')
 }
 
 export async function writeKeyToDid (crypto: Crypto.Implementation)
