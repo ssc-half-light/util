@@ -1,4 +1,3 @@
-// import * as uint8arrays from 'uint8arrays'
 import { concat, fromString, toString as arrToString } from 'uint8arrays'
 import { did as didLib } from '@oddjs/odd/components/crypto/implementation/browser'
 import type { Crypto } from '@oddjs/odd'
