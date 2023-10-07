@@ -16,7 +16,7 @@
     "build-mjs": "esbuild src/*.ts --format=esm --keep-names --outdir=./dist --out-extension:.js=.js",
     "build": "mkdir -p ./dist && rm -rf ./dist/* && npm run build-cjs && npm run build-mjs && tsc --emitDeclarationOnly",
     "preversion": "npm run lint",
-    "postversion": "git push && git push --tags && export $(cat .env | xargs) && npm publish",
+    "postversion": "git push && git push --tags && export $(cat .env | xargs) && npm publish && npm publish --@ssc-half-light:registry=https://registry.npmjs.org --access=public",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
