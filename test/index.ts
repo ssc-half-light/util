@@ -1,4 +1,4 @@
-import { test } from 'tapzero'
+import { test } from '@socketsupply/tapzero'
 import * as odd from '@oddjs/odd'
 import { components } from '@ssc-hermes/node-components'
 import { verify, writeKeyToDid } from '../dist/index.js'
