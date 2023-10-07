@@ -4,6 +4,8 @@ import type { Crypto } from '@oddjs/odd'
 import { Implementation } from '@oddjs/odd/components/crypto/implementation'
 type KeyStore = Implementation['keystore']
 
+export type DID = `did:key:z${string}`
+
 const KEY_TYPE = {
     RSA: 'rsa',
     Edwards: 'ed25519',
@@ -59,7 +61,7 @@ export function publicKeyToDid (
     crypto: Implementation,
     publicKey: Uint8Array,
     keyType: string
-): string {
+):DID {
     // Prefix public-write key
     const prefix = crypto.did.keyTypes[keyType]?.magicBytes
     if (prefix === null) {
@@ -70,11 +72,11 @@ export function publicKeyToDid (
     const prefixedBuf = concat([prefix, publicKey])
 
     // Encode prefixed
-    return BASE58_DID_PREFIX + arrToString(prefixedBuf, 'base58btc')
+    return (BASE58_DID_PREFIX + arrToString(prefixedBuf, 'base58btc')) as DID
 }
 
 export async function writeKeyToDid (crypto: Crypto.Implementation)
-:Promise<string> {
+:Promise<DID> {
     const [pubKey, ksAlg] = await Promise.all([
         crypto.keystore.publicWriteKey(),
         crypto.keystore.getAlgorithm()
