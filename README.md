@@ -26,7 +26,7 @@ async (did:string, sig:string, msg:string):Promise<boolean>
 
 #### example &mdash; verify
 ```ts
-import { verify } from '@ssc-hermes/util'
+import { verify } from '@ssc-half-light/util'
 
 const DID = 'did:key:z13V3Sog2Ya...'
 const sig = 'X8iGF4Lz4erw4UE...'
@@ -43,7 +43,7 @@ const isValid = await verify(DID, sig, 'my message')
 This depends on a `keystore` instance.
 
 ```ts
-import { sign, toString } from '@ssc-hermes/util'
+import { sign, toString } from '@ssc-half-light/util'
 import * as odd from '@oddjs/odd'
 
 const program = await odd.program({
