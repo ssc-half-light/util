@@ -68,5 +68,6 @@
   "bugs": {
     "url": "https://github.com/ssc-hermes/util/issues"
   },
+  "license": "MIT",
   "homepage": "https://github.com/ssc-hermes/util#readme"
 }
