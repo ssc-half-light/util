@@ -1,4 +1,9 @@
 # util
+![tests](https://github.com/nichoth/@ssc-half-light/util/actions/workflows/nodejs.yml/badge.svg)
+[![Socket Badge](https://socket.dev/api/badge/npm/package/@ssc-half-light/util)](https://socket.dev/npm/package/@ssc-half-light/util)
+[![types](https://img.shields.io/npm/types/@ssc-half-light/util)](README.md)
+[![module](https://img.shields.io/badge/module-ESM-blue)](README.md)
+[![license](https://img.shields.io/badge/license-MIT-brightgreen)](LICENSE)
 
 Utility functions
 
