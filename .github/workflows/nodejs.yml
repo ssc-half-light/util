@@ -27,4 +27,4 @@ jobs:
         CI: true
     - name: Run tests
       run: |
-        npm test
+        npm run test:node
