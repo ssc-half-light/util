@@ -21,7 +21,7 @@ export function sign (keystore:KeyStore, msg:string):Promise<Uint8Array> {
     return keystore.sign(fromString(msg))
 }
 
-export function toString (arr:Uint8Array) {
+export function toString (arr:Uint8Array):string {
     return arrToString(arr, 'base64url')
 }
 

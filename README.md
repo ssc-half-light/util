@@ -18,8 +18,20 @@ npm i @ssc-hermes/util
 ## API
 
 ### verify
+Works in node or browsers.
+
 ```ts
 async (did:string, sig:string, msg:string):Promise<boolean>
+```
+
+#### example
+```ts
+import { verify } from '@ssc-hermes/util'
+
+const DID = 'did:key:z13V3Sog2Ya...'
+const sig = 'X8iGF4Lz4erw4UE...'
+
+const isValid = await verify(DID, sig, 'my message')
 ```
 
 ### sign
@@ -27,26 +39,7 @@ async (did:string, sig:string, msg:string):Promise<boolean>
 (keystore:KeyStore, msg:string):Promise<Uint8Array>
 ```
 
-### toString
-Return `'base64url'` string. Good for getting a string version of a signature.
-
-```ts
-(arr:Uint8Array):string
-```
-
-### didToPublicKey
-Convert a DID string to a `Uint8Array` and `type` string.
-
-```ts
-(did:string):({
-    publicKey:Uint8Array,
-    type: 'rsa' | 'ed25519' | 'bls12-381'
-})
-```
-
-## example
-
-### Sign a message
+#### example
 This depends on a `keystore` instance.
 
 ```ts
@@ -61,26 +54,37 @@ const { keystore } = program.components.crypto
 const sig = toString(await sign(keystore, 'my message'))
 ```
 
-### Verify a signature
-Works in node or browsers.
+
+### toString
+Return a `'base64url'` string. Good for getting a string version of a signature.
 
 ```ts
-import { verify } from '@ssc-hermes/util'
-
-const DID = 'did:key:z13V3Sog2YaUKhdGCmgx9UZuW1o1ShFJYc6DvGYe7NTt689NoL2htQdMxpcGJ3C7aZxdwvAzVjiib8MGB5R4vVFYtQJe1k5YfgxHnhAy2AxtG9CCfDMioGExvWNQREeBt6kwZweRCm4D2c6UmAvosCpf48EcdVATJKdQiwW1Swp9Vo5rkbPCTYWHvSpwgw8N9WntcfrPNRF7xDvGFmQ1ZiZkvZw1E4sVUMvhoaLbnHoRSB8NLrdW1mXjkVCyeA3a72x76sXhXtvbQ63noGth8Rke8tGCfXs9Skha81F9UFZz3gmJZTrgFTfCJrcMF2b6AsHZtWgLGnsXcB3hj7pxRy8APSCeq4AYfzCexkrkVdctmfQkrMSDd5WmGEeF8KKzkoNaHZhcgHd8VcYFXnuoKe8'
-const sig = 'X8iGF4Lz4erw4UEjGEzjFBPapAj23hH2xZs46RCSk7m6VdI_OJcFHqnboMC9D9Gab3ywqKyKlVUZhLM9M7DC5Ep3FKvM68tXQxvAFNhJGZ91e9_pTxCUs3St1l6vGfMrMNUTzLfn72iClVzXcj5XjaYFzkbvO_l5HhvDUfho5ndVoHhyAVwml-YWG4JUTzeK-HPKCb6jeedjMlEIb5CeM2xMvjwdjs78s3kDVAiV7kMbtKSKDyvAmMfugQ1YlqbOIJmTKOgQOK-0-XtShDxd6j7GtSBkcwFauhjA4Gtd0emVGm6rK9sMT0yDPamFYCi4krt4HtzCxOnryoZTAMYTZg'
-
-const isValid = await verify(DID, sig, 'my message')
+function toString (arr:Uint8Array):string
 ```
 
-### Convert write key to DID
-Get the DID version of the key used to write messages.
+#### example
+```js
+```
+
+### writeKeyT0Did
+Convert a DID string to a `Uint8Array` and `type` string.
+
+```ts
+(did:string):({
+    publicKey:Uint8Array,
+    type: 'rsa' | 'ed25519' | 'bls12-381'
+})
+```
+
+#### example &mdash; writeKeyToDid
+Get the DID version of the key used to sign messages.
 
 ```js
 test('writeKeyToDid', async t => {
     const crypto = program.components.crypto
     const did = await writeKeyToDid(crypto)
-    t.equal(typeof did, 'string', 'should create string')
+    t.equal(typeof did, 'string', 'should create a string')
     t.ok(did.includes('did:key:'), 'should return the right format string')
 })
 ```
+

@@ -1,12 +1,14 @@
-import { test } from '@socketsupply/tapzero'
+import { test } from '@nichoth/tapzero'
 import * as odd from '@oddjs/odd'
-import { components } from '@ssc-hermes/node-components'
-import { verify, writeKeyToDid } from '../dist/index.js'
+import { components, createCryptoComponent } from '@ssc-hermes/node-components'
+import { verify, writeKeyToDid, toString, sign } from '../dist/index.js'
 
 // root DID
 const did = 'did:key:z13V3Sog2YaUKhdGCmgx9UZuW1o1ShFJYc6DvGYe7NTt689NoL2htQdMxpcGJ3C7aZxdwvAzVjiib8MGB5R4vVFYtQJe1k5YfgxHnhAy2AxtG9CCfDMioGExvWNQREeBt6kwZweRCm4D2c6UmAvosCpf48EcdVATJKdQiwW1Swp9Vo5rkbPCTYWHvSpwgw8N9WntcfrPNRF7xDvGFmQ1ZiZkvZw1E4sVUMvhoaLbnHoRSB8NLrdW1mXjkVCyeA3a72x76sXhXtvbQ63noGth8Rke8tGCfXs9Skha81F9UFZz3gmJZTrgFTfCJrcMF2b6AsHZtWgLGnsXcB3hj7pxRy8APSCeq4AYfzCexkrkVdctmfQkrMSDd5WmGEeF8KKzkoNaHZhcgHd8VcYFXnuoKe8'
-// sig 'my message'
+// signature 'my message'
 const sig = 'X8iGF4Lz4erw4UEjGEzjFBPapAj23hH2xZs46RCSk7m6VdI_OJcFHqnboMC9D9Gab3ywqKyKlVUZhLM9M7DC5Ep3FKvM68tXQxvAFNhJGZ91e9_pTxCUs3St1l6vGfMrMNUTzLfn72iClVzXcj5XjaYFzkbvO_l5HhvDUfho5ndVoHhyAVwml-YWG4JUTzeK-HPKCb6jeedjMlEIb5CeM2xMvjwdjs78s3kDVAiV7kMbtKSKDyvAmMfugQ1YlqbOIJmTKOgQOK-0-XtShDxd6j7GtSBkcwFauhjA4Gtd0emVGm6rK9sMT0yDPamFYCi4krt4HtzCxOnryoZTAMYTZg'
+
+const cryptoComponent = await createCryptoComponent()
 
 let program
 
@@ -37,13 +39,21 @@ test('verify a bad signature', async t => {
     }
 })
 
+let arrSig:Uint8Array
+test('sign', async t => {
+    console.log(Object.keys(program))
+    arrSig = await sign(cryptoComponent.keystore, 'hello')
+    t.ok(arrSig instanceof Uint8Array, 'should return a Uint8Array')
+})
+
+test('toString', t => {
+    const myString = toString(arrSig)
+    t.equal(typeof myString, 'string', 'should conver a Uint8Array to string')
+})
+
 test('writeKeyToDid', async t => {
     const crypto = program.components.crypto
     const did = await writeKeyToDid(crypto)
     t.equal(typeof did, 'string', 'should create string')
     t.ok(did.includes('did:key:'), 'should return the right format string')
-})
-
-test('get a hash', t => {
-
 })
