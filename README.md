@@ -12,7 +12,7 @@ Depends on `uint8arrays` and `@oddjs/odd`.
 ## install
 
 ```bash
-npm i @ssc-hermes/util
+npm i @ssc-half-light/util
 ```
 
 ## API
@@ -24,7 +24,7 @@ Works in node or browsers.
 async (did:string, sig:string, msg:string):Promise<boolean>
 ```
 
-#### example
+#### example &mdash; verify
 ```ts
 import { verify } from '@ssc-hermes/util'
 
@@ -39,7 +39,7 @@ const isValid = await verify(DID, sig, 'my message')
 (keystore:KeyStore, msg:string):Promise<Uint8Array>
 ```
 
-#### example
+#### example &mdash; sign
 This depends on a `keystore` instance.
 
 ```ts
@@ -62,8 +62,12 @@ Return a `'base64url'` string. Good for getting a string version of a signature.
 function toString (arr:Uint8Array):string
 ```
 
-#### example
+#### example &mdash; toString
 ```js
+test('toString', t => {
+    const myString = toString(myUint8Array)
+    t.equal(typeof myString, 'string', 'should conver a Uint8Array to string')
+})
 ```
 
 ### writeKeyT0Did
