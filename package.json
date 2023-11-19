@@ -63,11 +63,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ssc-hermes/util.git"
+    "url": "git+https://github.com/ssc-half-light/util.git"
   },
   "bugs": {
-    "url": "https://github.com/ssc-hermes/util/issues"
+    "url": "https://github.com/ssc-half-light/util/issues"
   },
   "license": "MIT",
-  "homepage": "https://github.com/ssc-hermes/util#readme"
+  "homepage": "https://github.com/ssc-half-light/util#readme"
 }
