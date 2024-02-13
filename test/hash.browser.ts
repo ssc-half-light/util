@@ -1,4 +1,4 @@
-import { test } from '@socketsupply/tapzero'
+import { test } from '@nichoth/tapzero'
 import { getHash, getHashFile } from '../dist/hash.js'
 import { blobFromFile } from '../dist/index.js'
 

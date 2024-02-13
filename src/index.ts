@@ -38,7 +38,7 @@ export const verify = async (did:string, sig:string, msg:string) => {
     return res
 }
 
-export function didToPublicKey (did:string): ({
+export function didToPublicKey (did:string):({
     publicKey:Uint8Array,
     type:'rsa' | 'ed25519' | 'bls12-381'
 }) {
