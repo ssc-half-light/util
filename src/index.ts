@@ -75,7 +75,7 @@ export function publicKeyToDid (
     return (BASE58_DID_PREFIX + arrToString(prefixedBuf, 'base58btc')) as DID
 }
 
-export async function writeKeyToDid (crypto: Crypto.Implementation)
+export async function writeKeyToDid (crypto:Crypto.Implementation)
 :Promise<DID> {
     const [pubKey, ksAlg] = await Promise.all([
         crypto.keystore.publicWriteKey(),

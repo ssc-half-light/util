@@ -69,26 +69,47 @@ test('toString', t => {
     t.equal(typeof myString, 'string', 'should conver a Uint8Array to string')
 })
 ```
-
 ### writeKeyToDid
+Convert a given public key to a DID string.
+
+```ts
+async function writeKeyToDid (crypto:Crypto.Implementation):Promise<DID>
+```
+
+#### example
+```js
+import { writeKeyToDid } from '@ssc-half-light/util'
+
+test('writeKeyToDid', async t => {
+    const crypto = program.components.crypto
+    const did = await writeKeyToDid(crypto)
+    console.log('**did**', did)
+    t.equal(typeof did, 'string', 'should create string')
+    t.ok(did.includes('did:key:'), 'should return the right format string')
+})
+```
+
+### didToPublicKey 
 Convert a DID string to a `Uint8Array` and `type` string.
 
 ```ts
-(did:string):({
+function didToPublicKey (did:string):({
     publicKey:Uint8Array,
     type: 'rsa' | 'ed25519' | 'bls12-381'
 })
 ```
 
-#### example &mdash; writeKeyToDid
+#### example &mdash; didToPublicKey
 Get the DID version of the key used to sign messages.
 
 ```js
-test('writeKeyToDid', async t => {
-    const crypto = program.components.crypto
-    const did = await writeKeyToDid(crypto)
-    t.equal(typeof did, 'string', 'should create a string')
-    t.ok(did.includes('did:key:'), 'should return the right format string')
+test('didToPublicKey', t => {
+    const did = 'did:key:z13...'
+    const pubKey = didToPublicKey(did)
+
+    t.equal(pubKey.type, 'rsa', 'should return the right key type')
+    t.ok(pubKey.publicKey instanceof Uint8Array,
+        'should return the public key as a Uint8Array')
 })
 ```
 
