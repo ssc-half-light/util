@@ -70,7 +70,7 @@ test('toString', t => {
 })
 ```
 
-### writeKeyT0Did
+### writeKeyToDid
 Convert a DID string to a `Uint8Array` and `type` string.
 
 ```ts
